@@ -7,7 +7,7 @@ Build a **dual-control** system for ride-on cars so a **child controller** (butt
 
 ## Current Status
 
-**Phase:** Research
+**Phase:** Research in to reverse engenreing the RF protcol.
 **Focus:** Decoding the stock RF protocol to enable safe emulation/mediation.
 
 * Platform under test: **TX20 (remote) → RX23 (car)**, FCC ID **2AJ2H-TX10**
@@ -33,6 +33,8 @@ Build a **dual-control** system for ride-on cars so a **child controller** (butt
 ![image 3](img/image3.jpg)
 ![image 4](img/image4.jpg)
 ![image 5](img/image5.jpg)
+![image 6](img/rec1.png)
+![image 7](img/rec2.png)
 
 ---
 
