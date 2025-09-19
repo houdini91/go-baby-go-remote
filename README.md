@@ -40,13 +40,16 @@ The following parameters have been confirmed via a successful transmission scrip
 > ℹ️ Note: While the stock remote likely uses GFSK (e.g., XN297L datasheet), our working GNU Radio transmission uses 2-FSK without shaping — and it successfully activates the car.
 
 * **LEFT**: `gfsk_tx20_rx23.py "07ffffffffffffffffffffffffffffe3887aafda352d50a4119a"`
+  
   **LEFT**: `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d50c21dfa"` (second speed)
 
 
 * **RIGHT** `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d5125a302"`
+
   **RIGHT** `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d5143af62"` (second speed)
 
 * **FOWARD**: `gfsk_tx20_rx23.py "07ffffffffffffffffffffffffffffe3887aafda352d5262ce72"`
+
   **FOWARD**: `gfsk_tx20_rx23.py "07ffffffffffffffffffffffffffffe3887aafda352d5204c212"` (second speed)
 
 * **BACKWARD**: `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d54200c52"`
@@ -56,6 +59,7 @@ The following parameters have been confirmed via a successful transmission scrip
 * **SPEED**: `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d50428c72"`
 
 ## Proposed frame layout
+
 [ PREAMBLE/PAD ]     variable  — runs of 0/1 (not part of logical payload)
 [ SYNC / MAGIC ]     4 bytes   — constant per protocol (e3 88 7a af)
 [ DEVICE ID ]        4 bytes   — constant for your car/remote (da 35 2d d5)
