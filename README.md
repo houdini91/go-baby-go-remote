@@ -12,6 +12,7 @@ Build a **dual-control** system for ride-on cars so a **child controller** (butt
 
 * Platform under test: **TX20 (remote) → RX23 (car)**, FCC ID **2AJ2H-TX10**
 * Band/Modulation: **2.4 GHz**, suspected **GFSK** (bit rate **TBD**)
+* RF modal with good probablity is panchip XN297L - https://www.panchip.com/static/upload/file/20190916/1568621331607821.pdf
 * Tools: **HackRF**, **GNU Radio**, **Universal Radio Hacker (URH)**
 * Progress:
   * ✅ Reliable captures of button-press bursts
