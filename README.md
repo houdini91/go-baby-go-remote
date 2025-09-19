@@ -36,6 +36,8 @@ The following parameters have been confirmed via a successful transmission scrip
 | Repeat/Burst      | 5 bursts, 50 ms gap              | Reliable transmission      |
 
 > ℹ️ Note: While the stock remote likely uses GFSK (e.g., XN297L datasheet), our working GNU Radio transmission uses 2-FSK without shaping — and it successfully activates the car.
+
+LEFT: `rx_gfsk_125Kbs.py "07ffffffffffffffffffffffffffffe3887aafda352d50a4119a0"`
 ---
 
 ## How You Can Help
