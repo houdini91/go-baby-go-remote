@@ -58,7 +58,7 @@ The following parameters have been confirmed via a successful transmission scrip
 
 * **SPEED**: `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d50428c72"`
 
-## Frame layout
+## Frame layout assumption (sep 20) 
 
 | Field        | Size   | Example (hex)       | Notes                                              |
 |--------------|--------|---------------------|----------------------------------------------------|
