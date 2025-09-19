@@ -33,8 +33,9 @@ Build a **dual-control** system for ride-on cars so a **child controller** (butt
 ![image 3](img/image3.jpg)
 ![image 4](img/image4.jpg)
 ![image 5](img/image5.jpg)
-![image 6](img/rec1.png)
-![image 7](img/rec2.png)
+![image 6](img/image6.jpg)
+![rec 1](img/rec1.png)
+![rec 2](img/rec2.png)
 
 ---
 
