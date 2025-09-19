@@ -41,6 +41,7 @@ The following parameters have been confirmed via a successful transmission scrip
 
 * **FOWARD**: `gfsk_tx20_rx23.py "07ffffffffffffffffffffffffffffe3887aafda352d5262ce728"`
 
+* **BACKWARD**: `"gfsk_tx20_rx23.py 1fffffffffffffffffffffffffffffe3887aafda352d54200c528"`
 ---
 
 ## How You Can Help
