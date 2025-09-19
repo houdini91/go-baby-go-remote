@@ -40,10 +40,14 @@ The following parameters have been confirmed via a successful transmission scrip
 > ℹ️ Note: While the stock remote likely uses GFSK (e.g., XN297L datasheet), our working GNU Radio transmission uses 2-FSK without shaping — and it successfully activates the car.
 
 * **LEFT**: `gfsk_tx20_rx23.py "07ffffffffffffffffffffffffffffe3887aafda352d50a4119a"`
+  **LEFT**: `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d50c21dfa"` (second speed)
+
 
 * **RIGHT** `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d5125a302"`
+  **RIGHT** `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d5143af62"` (second speed)
 
 * **FOWARD**: `gfsk_tx20_rx23.py "07ffffffffffffffffffffffffffffe3887aafda352d5262ce72"`
+  **FOWARD**: `gfsk_tx20_rx23.py "07ffffffffffffffffffffffffffffe3887aafda352d5204c212"` (second speed)
 
 * **BACKWARD**: `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d54200c52"`
 
@@ -51,18 +55,48 @@ The following parameters have been confirmed via a successful transmission scrip
 
 * **SPEED**: `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d50428c72"`
 
+## Proposed frame layout
+[ PREAMBLE/PAD ]     variable  — runs of 0/1 (not part of logical payload)
+[ SYNC / MAGIC ]     4 bytes   — constant per protocol (e3 88 7a af)
+[ DEVICE ID ]        4 bytes   — constant for your car/remote (da 35 2d d5)
+[ OPCODE ]           1 byte    — 0x50=LEFT, 0x51=RIGHT, 0x52=FWD, 0x54=BACK
+[ CMD ]              2 bytes   — direction bits + SPEED (2 bits duplicated)
+[ TAIL ]             2 bytes   — small check/CRC over the fields above
 
-### 📡 Packet (“burst”) cadence
-On a short button press, the remote emits a burst of **~100 packets** (≈**102** observed), sent at **~83 packets/s**.
+… e3 88 7a af | da 35 2d d5 | 50 | 0a 41 | 19 a0
+  SYNC/MAGIC     DEVICE ID    OPC   CMD     TAIL
+
+#### 🧩 `CMD` (2 bytes) — what we know so far
+`CMD` is a 16-bit field immediately after the `OPCODE` (`0x5X`). Across all captures, changing **speed** flips the same four bits inside `CMD` while the rest stay direction-specific.
+
+CMD[15..0] = b15 b14 b13 b12 b11 b10 b9 b8 b7 b6 b5 b4 b3 b2 b1 b0
+- `S_hi = (CMD >> 9) & 0b11`
+- `S_lo = (CMD >> 5) & 0b11`
+
+**Observed invariant:** speed changes toggle both 2-bit fields together with the mask **`0x0660`**.  
+That is, for the *same direction*:
+CMD_speed_B = CMD_speed_A XOR 0x0660
+
+### 📡 Packet (“burst”) cadence 
+- **While the button is held:** the remote transmits the **drive command** packet repeatedly at ~**83 packets/s** (≈ **12 ms** start-to-start).
+- **On release:** the payload **immediately switches to `PARK/NEUTRAL`**, but the remote **keeps transmitting at the same cadence** for a built-in **post-release dwell**, so a “short press” still shows ~**100 packets** in URH.
+
+What that means in practice:
+
+- The car **starts moving** as soon as it receives the first valid *drive* packet.
+- The car **stops** shortly **after the last drive packet**, either because it receives *PARK* packets or because its internal **watchdog** (~0.1 s typical) expires.  
+  The extra packets you see after release are mostly **PARK** and **don’t keep it moving**—they just ensure the stop command is delivered reliably.
+
+time ──▶ [drive][drive][drive]........(release)→[PARK][PARK]...[PARK]
 
 * **One line in URH = one packet (a.k.a. frame/burst).**
-  A short press produced **~102 packets over ~1.22 s** ⇒ **~83 packets/s**.
-* **Packet length (on-air):** ~**213 bits** ≈ **1700–1800 samples** at 2 MS/s, SPS = 8 → **~0.85–0.90 ms**.
+  A short press produced **\~102 packets over \~1.22 s** ⇒ **\~83 packets/s**.
+* **Packet length (on-air):** \~**213 bits** ≈ **1700–1800 samples** at 2 MS/s, SPS = 8 → **\~0.85–0.90 ms**.
 * **Symbol timing:** SPS = 8 @ 2 MS/s → **4 µs per symbol** (≈ 250 kb/s).
-* **Start-to-start interval:** ~**11.9 ms**.  
-  **Inter-packet gap (silence):** ~**11.0–11.2 ms** (URH shows `Pause: ~22k samples`).
+* **Start-to-start interval:** \~**11.9 ms**.
+  **Inter-packet gap (silence):** \~**11.0–11.2 ms** (you see `Pause: ~22k samples` in URH).
 
-> **Long press:** packets continue at ~**83 Hz** until release.
+> **Long press:** packets continue at \~**83 Hz** until release.
 
 
 ## How You Can Help

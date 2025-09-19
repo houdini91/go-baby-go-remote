@@ -23,7 +23,7 @@ DEF_BB_GAIN     = 20
 DEF_BW          = 2.0e6
 
 # Remote-like press (~102 packets in ~1.22 s)
-DEF_PACKETS     = 8
+DEF_PACKETS     = 100
 DEF_PERIOD_S    = 1.22 / 102.0  # ≈ 0.01196 s start-to-start
 # ------------------------------------------------
 
