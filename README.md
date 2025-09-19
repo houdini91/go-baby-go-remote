@@ -58,17 +58,19 @@ The following parameters have been confirmed via a successful transmission scrip
 
 * **SPEED**: `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d50428c72"`
 
-## Proposed frame layout
+## Frame layout
 
-[ PREAMBLE/PAD ]     variable  — runs of 0/1 (not part of logical payload)
-[ SYNC / MAGIC ]     4 bytes   — constant per protocol (e3 88 7a af)
-[ DEVICE ID ]        4 bytes   — constant for your car/remote (da 35 2d d5)
-[ OPCODE ]           1 byte    — 0x50=LEFT, 0x51=RIGHT, 0x52=FWD, 0x54=BACK
-[ CMD ]              2 bytes   — direction bits + SPEED (2 bits duplicated)
-[ TAIL ]             2 bytes   — small check/CRC over the fields above
+| Field        | Size   | Example (hex)       | Notes                                              |
+|--------------|--------|---------------------|----------------------------------------------------|
+| PREAMBLE/PAD | var    | …                   | Runs of 0/1 used for timing; not part of payload. |
+| SYNC/MAGIC   | 4 B    | `e3 88 7a af`       | Protocol constant.                                 |
+| DEVICE ID    | 4 B    | `da 35 2d d5`       | Constant per car/remote.                           |
+| OPCODE       | 1 B    | `50`                | `0x50=LEFT`, `0x51=RIGHT`, `0x52=FWD`, `0x54=BACK` |
+| CMD          | 2 B    | `0a 41`             | Direction bits + SPEED (some bits duplicated).     |
+| TAIL         | 2 B    | `19 a0`             | Small check/CRC over fields above.                 |
 
-… e3 88 7a af | da 35 2d d5 | 50 | 0a 41 | 19 a0
-  SYNC/MAGIC     DEVICE ID    OPC   CMD     TAIL
+**Example frame (hex):**  
+`… e3 88 7a af | da 35 2d d5 | 50 | 0a 41 | 19 a0`
 
 #### 🧩 `CMD` (2 bytes) — what we know so far
 `CMD` is a 16-bit field immediately after the `OPCODE` (`0x5X`). Across all captures, changing **speed** flips the same four bits inside `CMD` while the rest stay direction-specific.
