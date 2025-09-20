@@ -141,9 +141,9 @@ The **`CMD` field** is 1 byte wide (`8 bits`) and encodes **speed** and **steeri
 
 ```
 CMD[7..0] = L  S1  S0  X  X  X  X  R
-             ↑   ↑             ↑   ↑
-         Left  Speed       Right
-        Steer   Bits        Steer
+            ↑   ↑  ↑               ↑
+           Left  Speed            Right
+          Steer   Bits            Steer
 ```
 
 * **Bit 7 (`L`)**: Left steering flag
