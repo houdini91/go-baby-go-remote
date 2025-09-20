@@ -39,49 +39,130 @@ The following parameters have been confirmed via a successful transmission scrip
 
 > ℹ️ Note: While the stock remote likely uses GFSK (e.g., XN297L datasheet), our working GNU Radio transmission uses 2-FSK without shaping — and it successfully activates the car.
 
-* **LEFT**: `gfsk_tx20_rx23.py "07ffffffffffffffffffffffffffffe3887aafda352d50a4119a"`
+### Raw Packets capture
+
+* **LEFT**:
+  * 1fffffffffffffffffffffffffffffe3887aafda352d50c21dfa8 (speed 1)
+  * 1fffffffffffffffffffffffffffffe3887aafda352d50a4119a8 (speed 2)
+  * 1fffffffffffffffffffffffffffffe3887aafda352d50e019da8 (speed 3)
+
+* **RIGHT**:
+  * 1fffffffffffffffffffffffffffffe3887aafda352d5143af628 (speed 1)
+  * 1fffffffffffffffffffffffffffffe3887aafda352d5125a3028 (speed 2)
+  * 1fffffffffffffffffffffffffffffe3887aafda352d5161ab428 (speed 3)
+
+* **FOWARD**: 
+  * 1fffffffffffffffffffffffffffffe3887aafda352d5240ca528 (speed 1)
+  * 1fffffffffffffffffffffffffffffe3887aafda352d5226c6328 (speed 2)
+  * 1fffffffffffffffffffffffffffffe3887aafda352d5262ce728 (speed 3)
+    
+  > ODD BALL CAPTURE - 07ffffffffffffffffffffffffffffe3887aafda352d5204c212 ?? NOT SURE WHERE THIS CAME FROM BUT I RECORDED IT (maybe different error tollerance)
+
+* **BACKWARD**: 
+    * 1fffffffffffffffffffffffffffffe3887aafda352d544600328 (speed 1)
+    * 1fffffffffffffffffffffffffffffe3887aafda352d54200c528 (speed 2)
+    * 1fffffffffffffffffffffffffffffe3887aafda352d546404128 (speed 3)
+
+* **PARK**:
+  * 1fffffffffffffffffffffffffffffe3887aafda352d501f072a8
+
+* **SPEED**:
+  * 1fffffffffffffffffffffffffffffe3887aafda352d502480128 (change speed from 1 - 2)
+  * 1fffffffffffffffffffffffffffffe3887aafda352d506088528 (change speed from 2 - 3)
+  * 1fffffffffffffffffffffffffffffe3887aafda352d50428c728 (change speed from 3 - 1)
+
+* **LEFT + FOWARD**:
+  * 0fffffffffffffffffffffffffffffe3887aafda352d52c05bda8 (speed 1)
+  * 0fffffffffffffffffffffffffffffe3887aafda352d52a657ba8 (speed 3)
+  * 0fffffffffffffffffffffffffffffe3887aafda352d52e25ffa8 (speed 3)
+
+* **RIGHT + FOWARD**:
+  TBD
+
+* **LEFT + BACKWARD**:
+  * 0fffffffffffffffffffffffffffffe3887aafda352d54c691ba8 (speed 1)
+  * 0fffffffffffffffffffffffffffffe3887aafda352d54a09dda8 (speed 2)
+  * 0fffffffffffffffffffffffffffffe3887aafda352d54e4959a8 (speed 3)
+
+* **RIGHT + BACKWARD**:
+  * 0fffffffffffffffffffffffffffffe3887aafda352d554723228 (speed 1)
+  * 1fffffffffffffffffffffffffffffe3887aafda352d55212f428 (speed 2)
+  * 1fffffffffffffffffffffffffffffe3887aafda352d556527028 (speed 3)
   
-  **LEFT**: `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d50c21dfa"` (second speed)
-
-
-* **RIGHT** `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d5125a302"`
-
-  **RIGHT** `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d5143af62"` (second speed)
-
-* **FOWARD**: `gfsk_tx20_rx23.py "07ffffffffffffffffffffffffffffe3887aafda352d5262ce72"`
-
-  **FOWARD**: `gfsk_tx20_rx23.py "07ffffffffffffffffffffffffffffe3887aafda352d5204c212"` (second speed)
-
-* **BACKWARD**: `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d54200c52"`
-
-* **PARK**: `gfsk_tx20_rx23.py  "fffffffffffffffffffffffffffffe3887aafda352d501f072a"`
-
-* **SPEED**: `gfsk_tx20_rx23.py "1fffffffffffffffffffffffffffffe3887aafda352d50428c72"`
+### 
 
 ## Frame layout assumption (sep 20) 
 
-| Field        | Size   | Example (hex)       | Notes                                              |
-|--------------|--------|---------------------|----------------------------------------------------|
-| PREAMBLE/PAD | var    | …                   | Runs of 0/1 used for timing; not part of payload. |
-| SYNC/MAGIC   | 4 B    | `e3 88 7a af`       | Protocol constant.                                 |
-| DEVICE ID    | 4 B    | `da 35 2d d5`       | Constant per car/remote.                           |
-| OPCODE       | 1 B    | `50`                | `0x50=LEFT`, `0x51=RIGHT`, `0x52=FWD`, `0x54=BACK` |
-| CMD          | 2 B    | `0a 41`             | Direction bits + SPEED (some bits duplicated).     |
-| TAIL         | 2 B    | `19 a0`             | Small check/CRC over fields above.                 |
+| Field        | Size     | Example (Hex) | Notes                                                               |
+| ------------ | -------- | ------------- | ------------------------------------------------------------------- |
+| PREAMBLE/PAD | variable | `…`           | Run of 1s (or 0s) for synchronization; not part of logical payload. |
+| SYNC / MAGIC | 4 bytes  | `e3 88 7a af` | Fixed protocol sync header.                                         |
+| DEVICE ID    | 3 bytes  | `da 35 2d`    | Constant per remote/car pair (your car’s ID).                       |
+| OPCODE       | 1 byte   | `50`          | `0x50=LEFT / PARK / SPEED`, `0x51=RIGHT`, `0x52=FWD`, `0x54=BACK` |
+| CMD          | 1 bytes  | `a4`       | Direction + speed bits. Some mirrored.                              |
+| TAIL         | 2 byte   | `11 9a`          | Likely checksum or CRC over previous 
 
-**Example frame (hex):**  
-`… e3 88 7a af | da 35 2d d5 | 50 | 0a 41 | 19 a0`
 
-#### 🧩 `CMD` (2 bytes) — what we know so far
-`CMD` is a 16-bit field immediately after the `OPCODE` (`0x5X`). Across all captures, changing **speed** flips the same four bits inside `CMD` while the rest stay direction-specific.
+### Dual‑button (diagonal) packets — with steering flags
 
-CMD[15..0] = b15 b14 b13 b12 b11 b10 b9 b8 b7 b6 b5 b4 b3 b2 b1 b0
-- `S_hi = (CMD >> 9) & 0b11`
-- `S_lo = (CMD >> 5) & 0b11`
+| Action           | Speed | OP     | CMD              | TAIL                  | Steer flags (`b7`,`b0`) | Relation to straight drive                       |
+| ---------------- | ----- | ------ | ---------------- | --------------------- | ----------------------- | ------------------------------------------------ |
+| LEFT + FORWARD   | 1     | 52     | **c0**           | 5b da                 | `b7=1, b0=0`            | `0x40 (FWD s1)` \| `0x80`                        |
+| LEFT + FORWARD   | 2     | 52     | **a6**\*         | 57 ba                 | `b7=1, b0=0`            | expected `0x22 \| 0x80 = 0xA2`; seen `0xA6` (\*) |
+| LEFT + FORWARD   | 3     | 52     | **e2**           | 5f fa                 | `b7=1, b0=0`            | `0x62 (FWD s3)` \| `0x80`                        |
+| LEFT + BACKWARD  | 1/2/3 | 54     | **c6 / a0 / e4** | 91 ba / 9d da / 95 9a | `b7=1, b0=0`            | `0x46/0x20/0x64` \| `0x80`                       |
+| RIGHT + BACKWARD | 1     | **55** | **47**           | 23 22                 | `b7=0, b0=1`            | `0x46 (BACK s1)` \| `0x01`                       |
+| RIGHT + BACKWARD | 2     | **55** | **21**           | 2f 42                 | `b7=0, b0=1`            | `0x20 (BACK s2)` \| `0x01`                       |
+| RIGHT + BACKWARD | 3     | **55** | **65**           | 27 02                 | `b7=0, b0=1`            | `0x64 (BACK s3)` \| `0x01`                       |
 
-**Observed invariant:** speed changes toggle both 2-bit fields together with the mask **`0x0660`**.  
-That is, for the *same direction*:
-CMD_speed_B = CMD_speed_A XOR 0x0660
+> `0xA6` is the single oddball sample; everything else follows `CMD_diag ≈ CMD_straight | steer_flag`. ???? [TBD]
+
+
+### Single‑button (for reference)
+
+(You can spot the steer flags here too: LEFT has `b7=1`; RIGHT has `b0=1`; FORWARD/BACKWARD have both = 0.)
+
+| Action   | Speed | OP | CMD | TAIL  | Steer flags (`b7`,`b0`) |
+| -------- | ----- | -- | --- | ----- | ----------------------- |
+| LEFT     | 1     | 50 | c2  | 1d fa | `1,0`                   |
+| LEFT     | 2     | 50 | a4  | 11 9a | `1,0`                   |
+| LEFT     | 3     | 50 | e0  | 19 da | `1,0`                   |
+| RIGHT    | 1     | 51 | 43  | af 62 | `0,1`                   |
+| RIGHT    | 2     | 51 | 25  | a3 02 | `0,1`                   |
+| RIGHT    | 3     | 51 | 61  | ab 42 | `0,1`                   |
+| FORWARD  | 1     | 52 | 40  | ca 52 | `0,0`                   |
+| FORWARD  | 2     | 52 | 22  | 6c 63 | `0,0`                   |
+| FORWARD  | 3     | 52 | 62  | ce 72 | `0,0`                   |
+| BACKWARD | 1     | 54 | 46  | 00 32 | `0,0`                   |
+| BACKWARD | 2     | 54 | 20  | 0c 52 | `0,0`                   |
+| BACKWARD | 3     | 54 | 64  | 04 12 | `0,0`                   |
+
+#### 🧩 `CMD` Byte — Bit Layout and Meaning
+
+The **`CMD` field** is 1 byte wide (`8 bits`) and encodes **speed** and **steering** information:
+
+```
+CMD[7..0] = L  S1  S0  X  X  X  X  R
+             ↑   ↑             ↑   ↑
+         Left  Speed       Right
+        Steer   Bits        Steer
+```
+
+* **Bit 7 (`L`)**: Left steering flag
+  Set to `1` when **left** is part of the direction (e.g., `LEFT`, `LEFT+FORWARD`).
+
+* **Bits 6–5 (`S1`, `S0`)**: **Speed bits**
+
+  | Speed | Bits (S1 S0) | Binary | Decimal |
+  | ----- | ------------ | ------ | ------- |
+  | 1     | `1 0`        | `10`   | 2       |
+  | 2     | `0 1`        | `01`   | 1       |
+  | 3     | `1 1`        | `11`   | 3       |
+
+* **Bits 4–1**: Unknown; likely encode additional direction or sub-mode data (still under investigation).
+
+* **Bit 0 (`R`)**: Right steering flag
+  Set to `1` when **right** is part of the direction (e.g., `RIGHT`, `RIGHT+BACKWARD`).
 
 ### 📡 Packet (“burst”) cadence 
 - **While the button is held:** the remote transmits the **drive command** packet repeatedly at ~**83 packets/s** (≈ **12 ms** start-to-start).
