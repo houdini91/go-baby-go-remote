@@ -102,25 +102,7 @@ The following parameters have been confirmed via a successful transmission scrip
 | CMD          | 1 bytes  | `a4`       | Direction + speed bits. Some mirrored.                              |
 | TAIL         | 2 byte   | `11 9a`          | Likely checksum or CRC over previous 
 
-
-### Dual‑button (diagonal) packets — with steering flags
-
-| Action           | Speed | OP     | CMD              | TAIL                  | Steer flags (`b7`,`b0`) | Relation to straight drive                       |
-| ---------------- | ----- | ------ | ---------------- | --------------------- | ----------------------- | ------------------------------------------------ |
-| LEFT + FORWARD   | 1     | 52     | **c0**           | 5b da                 | `b7=1, b0=0`            | `0x40 (FWD s1)` \| `0x80`                        |
-| LEFT + FORWARD   | 2     | 52     | **a6**\*         | 57 ba                 | `b7=1, b0=0`            | expected `0x22 \| 0x80 = 0xA2`; seen `0xA6` (\*) |
-| LEFT + FORWARD   | 3     | 52     | **e2**           | 5f fa                 | `b7=1, b0=0`            | `0x62 (FWD s3)` \| `0x80`                        |
-| LEFT + BACKWARD  | 1/2/3 | 54     | **c6 / a0 / e4** | 91 ba / 9d da / 95 9a | `b7=1, b0=0`            | `0x46/0x20/0x64` \| `0x80`                       |
-| RIGHT + BACKWARD | 1     | **55** | **47**           | 23 22                 | `b7=0, b0=1`            | `0x46 (BACK s1)` \| `0x01`                       |
-| RIGHT + BACKWARD | 2     | **55** | **21**           | 2f 42                 | `b7=0, b0=1`            | `0x20 (BACK s2)` \| `0x01`                       |
-| RIGHT + BACKWARD | 3     | **55** | **65**           | 27 02                 | `b7=0, b0=1`            | `0x64 (BACK s3)` \| `0x01`                       |
-
-> `0xA6` is the single oddball sample; everything else follows `CMD_diag ≈ CMD_straight | steer_flag`. ???? [TBD]
-
-
-### Single‑button (for reference)
-
-(You can spot the steer flags here too: LEFT has `b7=1`; RIGHT has `b0=1`; FORWARD/BACKWARD have both = 0.)
+### Single‑button
 
 | Action   | Speed | OP | CMD | TAIL  | Steer flags (`b7`,`b0`) |
 | -------- | ----- | -- | --- | ----- | ----------------------- |
@@ -136,6 +118,22 @@ The following parameters have been confirmed via a successful transmission scrip
 | BACKWARD | 1     | 54 | 46  | 00 32 | `0,0`                   |
 | BACKWARD | 2     | 54 | 20  | 0c 52 | `0,0`                   |
 | BACKWARD | 3     | 54 | 64  | 04 12 | `0,0`                   |
+
+### Dual‑button packets
+
+| Action           | Speed | OP     | CMD              | TAIL                  | Steer flags (`b7`,`b0`) | Relation to straight drive                       |
+| ---------------- | ----- | ------ | ---------------- | --------------------- | ----------------------- | ------------------------------------------------ |
+| LEFT + FORWARD   | 1     | 52     | **c0**           | 5b da                 | `b7=1, b0=0`            | `0x40 (FWD s1)` \| `0x80`                        |
+| LEFT + FORWARD   | 2     | 52     | **a6**\*         | 57 ba                 | `b7=1, b0=0`            | expected `0x22 \| 0x80 = 0xA2`; seen `0xA6` (\*) |
+| LEFT + FORWARD   | 3     | 52     | **e2**           | 5f fa                 | `b7=1, b0=0`            | `0x62 (FWD s3)` \| `0x80`                        |
+| LEFT + BACKWARD  | 1/2/3 | 54     | **c6 / a0 / e4** | 91 ba / 9d da / 95 9a | `b7=1, b0=0`            | `0x46/0x20/0x64` \| `0x80`                       |
+| RIGHT + BACKWARD | 1     | **55** | **47**           | 23 22                 | `b7=0, b0=1`            | `0x46 (BACK s1)` \| `0x01`                       |
+| RIGHT + BACKWARD | 2     | **55** | **21**           | 2f 42                 | `b7=0, b0=1`            | `0x20 (BACK s2)` \| `0x01`                       |
+| RIGHT + BACKWARD | 3     | **55** | **65**           | 27 02                 | `b7=0, b0=1`            | `0x64 (BACK s3)` \| `0x01`                       |
+
+> `0xA6` is the single oddball sample; everything else follows `CMD_diag ≈ CMD_straight | steer_flag`. ???? [TBD]
+
+
 
 #### 🧩 `CMD` Byte — Bit Layout and Meaning
 
