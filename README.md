@@ -58,7 +58,7 @@ The following parameters have been confirmed via a successful transmission scrip
     
   > ODD BALL CAPTURE - 07ffffffffffffffffffffffffffffe3887aafda352d5204c212 ?? NOT SURE WHERE THIS CAME FROM BUT I RECORDED IT (maybe different error tollerance)
 
-* **BACKWARD**: 
+* **BACKWARD**: the
     * 1fffffffffffffffffffffffffffffe3887aafda352d544600328 (speed 1)
     * 1fffffffffffffffffffffffffffffe3887aafda352d54200c528 (speed 2)
     * 1fffffffffffffffffffffffffffffe3887aafda352d546404128 (speed 3)
@@ -77,7 +77,9 @@ The following parameters have been confirmed via a successful transmission scrip
   * 0fffffffffffffffffffffffffffffe3887aafda352d52e25ffa8 (speed 3)
 
 * **RIGHT + FOWARD**:
-  TBD
+  * 1fffffffffffffffffffffffffffffe3887aefda352d5341e9428 (speed 1)
+  * 1fffffffffffffffffffffffffffffe3887aafda352d5327e5228 (speed 2) ?? CMD=57 should b3..
+  * 0fffffffffffffffffffffffffffffe3887aafda352d5363ed628 (speed 3)
 
 * **LEFT + BACKWARD**:
   * 0fffffffffffffffffffffffffffffe3887aafda352d54c691ba8 (speed 1)
@@ -85,11 +87,15 @@ The following parameters have been confirmed via a successful transmission scrip
   * 0fffffffffffffffffffffffffffffe3887aafda352d54e4959a8 (speed 3)
 
 * **RIGHT + BACKWARD**:
-  * 0fffffffffffffffffffffffffffffe3887aafda352d554723228 (speed 1)
+  * 0fffffffffffffffffffffffffffffe3887aafda352d554723228 (speed 1)2
   * 1fffffffffffffffffffffffffffffe3887aafda352d55212f428 (speed 2)
   * 1fffffffffffffffffffffffffffffe3887aafda352d556527028 (speed 3)
   
-### 
+* **PAIR**: TBD still under investigation
+  * 1fffffffffffffffffffffffffffffe3887aafda352d50428c728 (short)
+
+  REMOTE SYN_ACK response back after pair
+  * 0fffffffffffffffffffffffffffffe3887aafda352d502480128
 
 ## Frame layout assumption (sep 20) 
 
@@ -98,7 +104,7 @@ The following parameters have been confirmed via a successful transmission scrip
 | PREAMBLE/PAD | variable | `…`           | Run of 1s (or 0s) for synchronization; not part of logical payload. |
 | SYNC / MAGIC | 4 bytes  | `e3 88 7a af` | Fixed protocol sync header.                                         |
 | DEVICE ID    | 3 bytes  | `da 35 2d`    | Constant per remote/car pair (your car’s ID).                       |
-| OPCODE       | 1 byte   | `50`          | `0x50=LEFT / PARK / SPEED`, `0x51=RIGHT`, `0x52=FWD`, `0x54=BACK` |
+| OPCODE       | 1 byte   | `50`          | `0x50=LEFT / PARK / SPEED`, `0x51=RIGHT`, `0x52=FWD,LEFT+FWD`, `0x54=BACK,LEFT+BACK` `0x55=RIGHT+BACK` `0x53=RIGHT+FWD` |
 | CMD          | 1 bytes  | `a4`       | Direction + speed bits. Some mirrored.                              |
 | TAIL         | 2 byte   | `11 9a`          | Likely checksum or CRC over previous 
 
@@ -121,19 +127,26 @@ The following parameters have been confirmed via a successful transmission scrip
 
 ### Dual‑button packets
 
-| Action           | Speed | OP     | CMD              | TAIL                  | Steer flags (`b7`,`b0`) | Relation to straight drive                       |
-| ---------------- | ----- | ------ | ---------------- | --------------------- | ----------------------- | ------------------------------------------------ |
-| LEFT + FORWARD   | 1     | 52     | **c0**           | 5b da                 | `b7=1, b0=0`            | `0x40 (FWD s1)` \| `0x80`                        |
-| LEFT + FORWARD   | 2     | 52     | **a6**\*         | 57 ba                 | `b7=1, b0=0`            | expected `0x22 \| 0x80 = 0xA2`; seen `0xA6` (\*) |
-| LEFT + FORWARD   | 3     | 52     | **e2**           | 5f fa                 | `b7=1, b0=0`            | `0x62 (FWD s3)` \| `0x80`                        |
-| LEFT + BACKWARD  | 1/2/3 | 54     | **c6 / a0 / e4** | 91 ba / 9d da / 95 9a | `b7=1, b0=0`            | `0x46/0x20/0x64` \| `0x80`                       |
-| RIGHT + BACKWARD | 1     | **55** | **47**           | 23 22                 | `b7=0, b0=1`            | `0x46 (BACK s1)` \| `0x01`                       |
-| RIGHT + BACKWARD | 2     | **55** | **21**           | 2f 42                 | `b7=0, b0=1`            | `0x20 (BACK s2)` \| `0x01`                       |
-| RIGHT + BACKWARD | 3     | **55** | **65**           | 27 02                 | `b7=0, b0=1`            | `0x64 (BACK s3)` \| `0x01`                       |
+Absolutely—here’s the completed, cleaned-up table with your latest captures, including **RIGHT+FORWARD**. I’ve kept the same columns and added the new rows. (Reminder: **CMD** here is the first byte after OP—i.e., `CMD_hi`. The two bytes in **TAIL** are the checksum/CRC right before the common trailer `0x28`.)
 
-> `0xA6` is the single oddball sample; everything else follows `CMD_diag ≈ CMD_straight | steer_flag`. ???? [TBD]
+### Dual‑button packets
 
+| Action           | Speed | OP | CMD      | TAIL  | Steer flags (`b7`,`b0`) | Relation to straight drive                                 |
+| ---------------- | ----- | -- | -------- | ----- | ----------------------- | ---------------------------------------------------------- |
+| LEFT + FORWARD   | 1     | 52 | **c0**   | 5b da | `b7=1, b0=0`            | `0x40 (FWD s1)` \| `0x80` = **0xC0**                       |
+| LEFT + FORWARD   | 2     | 52 | **a6**\* | 57 ba | `b7=1, b0=0`            | expected `0x22 \| 0x80 = 0xA2`; seen **0xA6** (+`b2`) (\*) |
+| LEFT + FORWARD   | 3     | 52 | **e2**   | 5f fa | `b7=1, b0=0`            | `0x62 (FWD s3)` \| `0x80` = **0xE2**                       |
+| LEFT + BACKWARD  | 1     | 54 | **c6**   | 91 ba | `b7=1, b0=0`            | `0x46 (BACK s1)` \| `0x80` = **0xC6**                      |
+| LEFT + BACKWARD  | 2     | 54 | **a0**   | 9d da | `b7=1, b0=0`            | `0x20 (BACK s2)` \| `0x80` = **0xA0**                      |
+| LEFT + BACKWARD  | 3     | 54 | **e4**   | 95 9a | `b7=1, b0=0`            | `0x64 (BACK s3)` \| `0x80` = **0xE4**                      |
+| RIGHT + BACKWARD | 1     | 55 | **47**   | 23 22 | `b7=0, b0=1`            | `0x46 (BACK s1)` \| `0x01` = **0x47**                      |
+| RIGHT + BACKWARD | 2     | 55 | **21**   | 2f 42 | `b7=0, b0=1`            | `0x20 (BACK s2)` \| `0x01` = **0x21**                      |
+| RIGHT + BACKWARD | 3     | 55 | **65**   | 27 02 | `b7=0, b0=1`            | `0x64 (BACK s3)` \| `0x01` = **0x65**                      |
+| RIGHT + FORWARD  | 1     | 53 | **41**   | e9 42 | `b7=0, b0=1`            | `0x40 (FWD s1)` \| `0x01` = **0x41**                       |
+| RIGHT + FORWARD  | 2     | 53 | **27**\* | e5 22 | `b7=0, b0=1`            | expected `0x22 \| 0x01 = 0x23`; seen **0x27** (+`b2`) (\*) |
+| RIGHT + FORWARD  | 3     | 53 | **63**   | ed 62 | `b7=0, b0=1`            | `0x62 (FWD s3)` \| `0x01` = **0x63**                       |
 
+> The **`+b2`** anomaly (extra bit 2 set) shows up in some **speed‑2 diagonal with FWD** packets (e.g., `0xA6` vs. expected `0xA2`, and `0x27` vs. `0x23`). Everything else matches the rule:
 
 #### 🧩 `CMD` Byte — Bit Layout and Meaning
 
@@ -157,10 +170,24 @@ CMD[7..0] = L  S1  S0  X  X  X  X  R
   | 2     | `0 1`        | `01`   | 1       |
   | 3     | `1 1`        | `11`   | 3       |
 
-* **Bits 4–1**: Unknown; likely encode additional direction or sub-mode data (still under investigation).
+* **Bits 4–1**:
+  These 4 bits appear to encode a base pattern for each direction (e.g., FWD, BACK, LEFT, RIGHT), and vary consistently with speed and direction—but not with steering.
+  | Direction | Speed | CMD base         | Bits 4–1 (binary) | Bits 4–1 (hex) |
+  | --------- | ----- | ---------------- | ----------------- | -------------- |
+  | FWD       | 1     | `0x40`           | `0000`            | `0x0`          |
+  | FWD       | 2     | `0x22`           | `0110`            | `0x6`          |
+  | FWD       | 3     | `0x62`           | `1110`            | `0xE`          |
+  | BACK      | 1     | `0x46`           | `0110`            | `0x6`          |
+  | BACK      | 2     | `0x20`           | `0000`            | `0x0`          |
+  | BACK      | 3     | `0x64`           | `0100`            | `0x4`          |
+  | SPEED UP  | n/a   | `0x24/0x60/0x42` | varies            | unclear        |
 
 * **Bit 0 (`R`)**: Right steering flag
   Set to `1` when **right** is part of the direction (e.g., `RIGHT`, `RIGHT+BACKWARD`).
+  
+### PAIR
+Pressing process press pair button until remote flases repeatedly, then turn on the car.
+Remote starts by sending a pair packet but when remote starts to flasg there is no comminication from remote (probably waiting for ack from car or something) 
 
 ### 📡 Packet (“burst”) cadence 
 - **While the button is held:** the remote transmits the **drive command** packet repeatedly at ~**83 packets/s** (≈ **12 ms** start-to-start).
