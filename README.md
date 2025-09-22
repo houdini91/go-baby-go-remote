@@ -104,8 +104,8 @@ The following parameters have been confirmed via a successful transmission scrip
 
   * CAR SEND TDB????
 
-  * Remote Led show pair is complete by stopping to flash.
-    At the end of the pairing the remote sends burst of the speed packet on data channel 2.444
+  * Remote Led show pair is complete.
+    At the end of the pairing the remote sends burst at "speed" packet on the normal data channel 2.444
 
     `ffffffffffffffffffffffffffffffe3887aafda352d702480128`
 
