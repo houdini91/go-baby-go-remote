@@ -21,6 +21,11 @@ Build a **dual-control** system for ride-on cars so a **child controller** (butt
 
 > Goal of this phase: confirm modulation/bitrate, extract a stable frame format, and map commands (FWD/REV/LEFT/RIGHT/STOP).
 
+# RX23 - TX20
+Remote Analysis paired with RX23 protcol.
+
+> Note TX20 Remote seems to support the new RX75 Model as well depending on who it pairs with.
+
 ## ⚡️ RF Protocol Specification & Verified Command (as of 2025-09-19)
 The following parameters have been confirmed via a successful transmission script `gfsk_tx20_rx23.py` that reliably controlled the car's receiver.
 
@@ -45,7 +50,7 @@ The following parameters have been confirmed via a successful transmission scrip
   * 1fffffffffffffffffffffffffffffe3887aafda352d50c21dfa8 (speed 1)
   * 1fffffffffffffffffffffffffffffe3887aafda352d50a4119a8 (speed 2)
   * 1fffffffffffffffffffffffffffffe3887aafda352d50e019da8 (speed 3)
-
+ 
 * **RIGHT**:
   * 1fffffffffffffffffffffffffffffe3887aafda352d5143af628 (speed 1)
   * 1fffffffffffffffffffffffffffffe3887aafda352d5125a3028 (speed 2)
@@ -92,10 +97,15 @@ The following parameters have been confirmed via a successful transmission scrip
   * 1fffffffffffffffffffffffffffffe3887aafda352d556527028 (speed 3)
   
 * **PAIR**: TBD still under investigation
-  * 1fffffffffffffffffffffffffffffe3887aafda352d50428c728 (short)
+  Remote pairing mode - Sends signal on a slightly different channel 2.439,
+  also seems burst is slower rate.
+  * ffffffffffffffffffffffffffffffe3887aae66666528c65da5428
 
-  REMOTE SYN_ACK response back after pair
-  * 0fffffffffffffffffffffffffffffe3887aafda352d502480128
+  * CAR SEND TDB????
+
+  * Remote Led show pair is complete by stopping to flash.
+  At the end of the pairing the remote sends burst of the speed packet on data channel2.444
+  * ffffffffffffffffffffffffffffffe3887aafda352d702480128
 
 ## Frame layout assumption (sep 20) 
 
@@ -209,6 +219,15 @@ time ──▶ [drive][drive][drive]........(release)→[PARK][PARK]...[PARK]
   **Inter-packet gap (silence):** \~**11.0–11.2 ms** (you see `Pause: ~22k samples` in URH).
 
 > **Long press:** packets continue at \~**83 Hz** until release.
+
+# RX75 WORK IN PROGRESS
+Seems like it uses some other form of modulation possibly freq hopping.
+  * 1fffffffffffffffffffffffffffffe3887aa9a3af755029c2a50
+  * 1fffffffffffffffffffffffffffffe3887aa9a3af755024e1528
+  * 1fffffffffffffffffffffffffffffe3887aa9a3af755024e1528
+  * 1fffffffffffffffffffffffffffffe3887aa9a3af755024e1528
+  * 1fffffffffffffffffffffffffffffe3887aa9a3af755226a7728
+  * ffffffffffffffffffffffffffffffc3887aa9a3af7f40e470de8
 
 
 ## How You Can Help
