@@ -102,7 +102,11 @@ The following parameters have been confirmed via a successful transmission scrip
 
     `ffffffffffffffffffffffffffffffe3887aae66666528c65da5428`
 
-  * CAR SEND TDB????
+  * CAR SEND TDB???? I see something on channel 2.03
+    ffffffffffffffffffffffffffc710f55cccccc5aa562df3b29500
+    ffffffffffffffffffffffffffe3887aae666662d52b16f9d94a8
+    ffffffffffffffffffffffffffe3887aae666662d52b16f9d94a8
+    > I not able to send the packet and sync in the remote using hackr yet to verify this finding.
 
   * Remote Led show pair is complete.
     At the end of the pairing the remote sends burst at "speed" packet on the normal data channel 2.444
@@ -130,6 +134,7 @@ The following parameters have been confirmed via a successful transmission scrip
 * The car accepts **truncated** frames that begin directly at `88 7a af da …` (e.g.,
   `887aafda352d546404128`, `887aafda352d50c21dfa8`). If a 5-byte address were required, omitting that 5th byte would break reception—yet these packets still work.
 * Flipping any of the **first four bytes** makes the car ignore the packet (address mismatch), while changing bytes **after** those four changes the action but is still accepted (payload).
+
 
 ## Frame layout assumption (sep 20) 
 
