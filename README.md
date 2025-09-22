@@ -97,15 +97,17 @@ The following parameters have been confirmed via a successful transmission scrip
   * 1fffffffffffffffffffffffffffffe3887aafda352d556527028 (speed 3)
   
 * **PAIR**: TBD still under investigation
-  Remote pairing mode - Sends signal on a slightly different channel 2.439,
-  also seems burst is slower rate.
-  * ffffffffffffffffffffffffffffffe3887aae66666528c65da5428
+  * Remote pairing mode - Sends signal on a slightly different channel 2.439,
+    also seems burst is slower rate.
+
+    `ffffffffffffffffffffffffffffffe3887aae66666528c65da5428`
 
   * CAR SEND TDB????
 
   * Remote Led show pair is complete by stopping to flash.
-  At the end of the pairing the remote sends burst of the speed packet on data channel2.444
-  * ffffffffffffffffffffffffffffffe3887aafda352d702480128
+    At the end of the pairing the remote sends burst of the speed packet on data channel 2.444
+
+    `ffffffffffffffffffffffffffffffe3887aafda352d702480128`
 
 ## Frame layout assumption (sep 20) 
 
