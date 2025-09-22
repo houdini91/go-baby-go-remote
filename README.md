@@ -10,7 +10,7 @@ Build a **dual-control** system for ride-on cars so a **child controller** (butt
 **Phase:** Research in to reverse engenreing the RF protcol.
 **Focus:** Decoding the stock RF protocol to enable safe emulation/mediation.
 
-* Platform under test: **TX20 (remote) → RX23 (car)**, FCC ID **2AJ2H-TX10**
+* Platform under test: **TX20 (remote) → RX23 (car)**, FCC ID **[2AJ2H-TX10](https://fcc.report/FCC-ID/2AJ2H-TX10)**
 * Band/Modulation: **2.4 GHz**, suspected **GFSK** (bit rate **TBD**)
 * RF modal with good probablity is panchip [XN297L](https://www.panchip.com/static/upload/file/20190916/1568621331607821.pdf)
 * Tools: **HackRF**, **GNU Radio**, **Universal Radio Hacker (URH)**
@@ -108,6 +108,28 @@ The following parameters have been confirmed via a successful transmission scrip
     At the end of the pairing the remote sends burst at "speed" packet on the normal data channel 2.444
 
     `ffffffffffffffffffffffffffffffe3887aafda352d702480128`
+
+## XN297L RF packet alignment (TX20 → RX23)
+
+**Mode & sizes (as verified on-air):**
+
+* **Mode:** Normal BURST (no per-packet length field)
+* **Address width (AW):** **4 bytes**
+* **Static payload length:** **4 bytes**
+* **CRC:** **16-bit** (2 bytes on air; appears big-endian in our dumps)
+
+**Working short-TX frame (what we actually send):**
+
+```
+[ADDR (4)]   [PAYLOAD (4)]     [CRC16 (2)]
+88 7a af da   35 2d 50 c2        1d fa
+```
+
+**Why AW = 4 (and not 5):**
+
+* The car accepts **truncated** frames that begin directly at `88 7a af da …` (e.g.,
+  `887aafda352d546404128`, `887aafda352d50c21dfa8`). If a 5-byte address were required, omitting that 5th byte would break reception—yet these packets still work.
+* Flipping any of the **first four bytes** makes the car ignore the packet (address mismatch), while changing bytes **after** those four changes the action but is still accepted (payload).
 
 ## Frame layout assumption (sep 20) 
 
