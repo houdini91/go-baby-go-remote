@@ -45,7 +45,7 @@ Key steps:
 
 ## 📡 Current Status
 
-**Phase:** RF reverse engineering and protocol decoding of produced by **Weleye**.
+**Phase:** RF reverse engineering and protocol decoding of produced by **weelye**.
 **Focus:** Safely emulating the stock remote behavior and identifying opportunities for dual control
 
 | Item                  | Status |
@@ -66,7 +66,7 @@ For full technical details, packet layouts, timing analysis, and verified captur
 We welcome help from hackers, engineers, makers, and families!
 
 ### 👩‍🔬 Reverse Engineering
-- Help analyze and document RF protocols of other ride-on car systems (**Weleye** RX75, etc.)
+- Help analyze and document RF protocols of other ride-on car systems (**weelye** RX75, etc.)
 - Share URH or HackRF captures of your remotes
 - Confirm observed behavior with your specific models
 
