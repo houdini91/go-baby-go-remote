@@ -46,7 +46,6 @@ Key steps:
 ## 📡 Current Status
 
 **Phase:** RF reverse engineering and protocol decoding of produced by **weelye**.
-**Focus:** Safely emulating the stock remote behavior and identifying opportunities for dual control
 
 | Item                  | Status |
 |-----------------------|--------|
