@@ -12,9 +12,9 @@ from gnuradio import gr, blocks
 import osmosdr
 
 # ---- Defaults (mirror your working capture) ----
-# DEF_CENTER_FREQ = 2.44388e9     # Hz
+DEF_CENTER_FREQ = 2.444e9     # Hz
 # DEF_CENTER_FREQ = 2.43900e9     # Hz
-DEF_CENTER_FREQ = 2.40300e9     # Hz
+# DEF_CENTER_FREQ = 2.40300e9     # Hz
 DEF_SAMP_RATE   = 2.0e6         # S/s
 DEF_SPS         = 8             # samples/symbol -> 250 ksym/s
 DEF_F0_HZ       = 28320.0       # “0” tone (Hz)
