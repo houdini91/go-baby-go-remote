@@ -86,6 +86,7 @@ We welcome help from hackers, engineers, makers, and families!
 ![image 4](img/image4.jpg)
 ![image 5](img/image5.jpg)
 ![image 6](img/image6.jpg)
+![image 7](img/image7.jpg)
 ![rec 1](img/rec1.png)
 ![rec 2](img/rec2.png)
 
