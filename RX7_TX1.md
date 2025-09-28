@@ -22,41 +22,59 @@
 | **TX Script Repeat Pattern**|  - | - |
 | **Stock Remote Cadence**    | -  | - |
 
-### Raw Packets capture
+### Raw Packets shifted
+
+**FWD**:
+* 710F552F7D8726491656B992AEC4C108500 (Speed 1)
+* 710F552F7D8726491656B992AEC80084500 (Speed 2)
+* 710F552F7D8726491656B992AEC0818C500 (Speed 3)
+
+**BACK**:
+* 710F552F7D8726491656B992AE041844500 (Speed 1)
+* 710F552F7D8726491656B992AE08D9C8500 (Speed 2)
+* 710F552F7D8726491656B992AE0058C0500 (Speed 3)
+
+**RIGHT**:
+* 710F552F7D8726491656B992AEA4ADAE500 (Speed 1)
+  710F552F7D8726491656B992AEA86C22500 (Speed 2)
+  710F552F7D8726491656B992AEA0ED2A500 (Speed 3)
+
+**LEFT**:
+* 710F552F7D8726491656B992AE949BFD500 (Speed 1)
+* 710F552F7D8726491656B992AE985A71500 (Speed 2)
+* 710F552F7D8726491656B992AE90DB79500 (Speed 3)
+
+### #################### Raw Packets capture ############################################################3
 
 **FWD**:
 * 3887aa97bec393248b2b5cc957626084280 (Speed 1)
+* 3887aa97bec393248b2b5cc957640042280 (Speed 2)
+* 3887aa97bec393248b2b5cc9576040c6280 (Speed 3)
 
 **BACK**:
-* 3887aa97bec393248b2b5cc957020c22280 (Speed 1)
+  * 3887aa97bec393248b2b5cc957020c22280 (Speed 1)
+  * 3887aa97bec393248b2b5cc957046ce4280 (Speed 2)
+  * 3887aa97bec393248b2b5cc957002c60280 (Speed 3)
 
 **RIGHT**:
 * 3887aa97bec393248b2b5cc9575256d7280 (Speed 1)
+  3887aa97bec393248b2b5cc957543611280 (Speed 2)
+  3887aa97bec393248b2b5cc957507695280 (Speed 3)
 
 **LEFT**:
 * 3887aa97bec393248b2b5cc9574a4dfea80 (Speed 1)
+* 3887aa97bec393248b2b5cc9574c2d38a80 (Speed 2)
+* 3887aa97bec393248b2b5cc957486dbca80 (Speed 3)
+  
+** LEFT + FWD **
+** RIGHT + FWD **
+** LEFT + BACK **
+** RIGHT + BACK **
 
-
-###################### 
-TMP RAW PACKETS
-
-FWD
-f002aafffffffffffffffffffffffffffffffffffffffffffbfffffff83887aa97bec393248b2b5cc957626084280
-9e0055bffffffffffffffffffffffffffffffffffffffffffefffffffe0e21eaa5efb0e4c922cad73255d898210a00
-9e00aab6ffffffffffffffffffffffffffffffffffffffffffbfffffff83887aa97bec393248b2b5cc957626084280
-
-BACK
-3c0002afffffffffffffffffffffffffffffffffffffffffffcfffffffc1c43d54bdf61c9924595ae64ab8106111400
-9f0000aafffffffffffffffffffffffffffffffffffffffffff9fffffff83887aa97bec393248b2b5cc957020c22280
-f00003afffffffffffffffffffffffffffffffffffffffffffcfffffff83887aa97bec393248b2b5cc957020c22280 (back)
-
-
-RIGHT:
-fc02aafffffffffffffffffffffffffffffffffffffffffffffffffffff83887aa97bec393248b2b5cc9575256d7280
-
-LEFT
-000000000000000000000000000000000000000000000000003887aa97bec393248b2b5cc9574a4dfea800
-
+**SPEED**:
+3887aa97bec393248b2b5cc957626084280 (Speed 1 - 2) ?
+3887aa97bec393248b2b5cc957442420280 (Speed 1 - 2) ?
+3887aa97bec393248b2b5cc9574064a4280 (Speed 2 - 3)
 
 
 
