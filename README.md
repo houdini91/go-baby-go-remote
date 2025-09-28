@@ -48,15 +48,14 @@ Key steps:
 **Phase:** RF reverse engineering and protocol decoding of produced by **weelye**.
 
 | Item                  | Status |
-|-----------------------|--------|
-| Target System         | TX20 (remote) → RX23 (car) |
+| **TX20 → RX23** | ✅ **Working emulated control** | 2-FSK @ **250 kbps**; CF **2.44388 GHz**; **SPS=8**; cadence **~83 Hz**; | [RX23_TX20.md](./RX23_TX20.md) |
+| **TX1 → RX7**  | ✅ **Packet format decoded** (replay WIP) | 2-FSK @ **1 Mbps**; CF **2.433 GHz**; **SPS=4**;  cadence **~81 Hz** | [RX7_TX1.md](./RX7_TX1.md) |
 | Tools Used            | HackRF, GNU Radio, Universal Radio Hacker (URH) |
-| RF SoC (likely)       | [XN297L](https://www.panchip.com/static/upload/file/20190916/1568621331607821.pdf) |
-| FCC ID                | [2AJ2H-TX10](https://fcc.report/FCC-ID/2AJ2H-TX10) |
-| Protocol Progress     | ✅ Working emulated packets <br> 🔄 Refining bitrate, timing, CRC <br> 🔍 Mapping dual-button behavior |
+| RF SoC (or similar)       | [XN297L](https://www.panchip.com/static/upload/file/20190916/1568621331607821.pdf) |
 
 For full technical details, packet layouts, timing analysis, and verified captures, see:  
 👉 [RX23 TX20 Analysis](./RX23_TX20.md)
+👉 [RX7 TX1 Analysis](./RX7_TX1.md)
 
 ---
 
@@ -65,7 +64,7 @@ For full technical details, packet layouts, timing analysis, and verified captur
 We welcome help from hackers, engineers, makers, and families!
 
 ### 👩‍🔬 Reverse Engineering
-- Help analyze and document RF protocols of other ride-on car systems (**weelye** RX75, etc.)
+- Help analyze and document RF protocols of other ride-on car systems (**weelye** RX23, RX75, RX7 etc.)
 - Share URH or HackRF captures of your remotes
 - Confirm observed behavior with your specific models
 
