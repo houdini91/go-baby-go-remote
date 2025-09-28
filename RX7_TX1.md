@@ -182,8 +182,6 @@ time ──▶ [drive][drive][drive]……(release)→[PARK][PARK]…[PARK]
 
 > **Long press:** packets continue at ~**81 Hz** until release.
 
-
-
 --- 
 ### APPENDX A: ON air shifted Raw Packets capture
 
