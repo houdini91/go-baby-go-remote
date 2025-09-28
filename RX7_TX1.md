@@ -125,10 +125,10 @@ OP = [ d3 d2 d1 d0 | s3 s2 s1 s0 ]
 
 ```
 CMD[7..0] =  b7  b6  b5  b4  b3  b2  b1  b0
-                  ^   ^  \__DIR_SIG___/   ^
-                  |  |                    └─ toggled for S2 (bit0 = 0x01)
-                  |  └─ toggled for S1 (bit6 = 0x40)
-                  └──── toggled for S2 (bit7 = 0x80)
+             ^    ^  \____DIR_SIG_____/   ^
+             |    |                       └─ toggled for S2 (bit0 = 0x01)
+             |    └─ toggled for S1 (bit6 = 0x40)
+             └──── toggled for S2 (bit7 = 0x80)
 ```
 
 **Bit usage (b7..b0):**
