@@ -82,7 +82,8 @@ TBD
 | Field             | Size    | Example | Notes                                                                          |
 | ----------------- | ------- | --------------------------------------------------- | ------------------------------------------------------------------------------ |
 | **PREAMBLE/SYNC** | 3 B     | `71 0F 55`                                          | Radio sync; not payload.                                                       |
-| **DEVICE ID**     | **9 B** | `2F 7D 87 26 49 16 56 B9 92`                        | **Includes `2F`** (last preamble nibble belongs to ID). Stable per remote/car. |
+| **CAR ID**     | **5 B** |`2F 7D 87 26 49`                        | - |
+| **REMOTE ID**     | **4 B** | `16 56 B9 92`                        | - |
 | **HEADER**        | 1 B     | `AE`                                                | Fixed header.                                                                  |
 | **OP**            | 1 B     | `94`                                                | High nibble = direction; low nibble = speed code.                              |
 | **CMD**           | 1 B     | `9B`                                                | Direction signature ⊕ speed mask.                                                                                |
@@ -232,3 +233,14 @@ time ──▶ [drive][drive][drive]……(release)→[PARK][PARK]…[PARK]
 3887aa97bec393248b2b5cc957442420280 (Speed 1 - 2)
 3887aa97bec3a6491656b9935d019290a00 (Speed 2 - 3)
 3887aa97bec393248b2b5cc9574244e6280 (SPeed 3 - 1)
+
+**Pairing**:
+On car wake uup Car sends repeated packets on sync channel 2.407G until remote responds with any packet.
+* 3887aa97bec39324f4ab5cc9573f4993280  ->   710f552f7d872649e956b992ae7e9326500
+  3887aa97bec39324f4ab5cc957462e3da81 ??
+  
+RemoteReplays on both 2.407G and Data 2.433G with speed packet
+* 3887aa97bec393248b2b5cc9574244e6280 (SPeed 3 - 1)
+  
+  
+
