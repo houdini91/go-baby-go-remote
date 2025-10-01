@@ -74,8 +74,26 @@
 * 710f552f7d8726491656b992ae83f92b500
 
 
-### 🔄 Pairing Process (Work in Progress)
-TBD
+### 🔄 Pairing Process
+When the car wakes it floods a **sync channel (~2.407 GHz)** with announce bursts. A remote that hears the announce will reply with a **speed** packet (the remote often transmits this reply on both the sync channel **2.407 GHz** and the normal data channel **~2.433 GHz**). If no reply arrives within **~1 s**, the car falls back to repeating short 4‑packet bursts — replying to those also initiates pairing.
+
+**Representative shifted (TX) packets**
+
+**Car packets**
+
+```
+Boot-up burst (announce)
+710f552f7d872649e956b992ae8c5c7b500
+
+No-reply followup (4‑packet burst)
+710f552f7d872649e956b992ae7e9326500
+```
+
+**Synced remote reply (speed / pairing reply)**
+
+```
+710f552f7d8726491656b992ae8489cc500
+```
   
 ## Frame layout assumption (sep 25) 
 
@@ -83,7 +101,7 @@ TBD
 | ----------------- | ------- | --------------------------------------------------- | ------------------------------------------------------------------------------ |
 | **PREAMBLE/SYNC** | 3 B     | `71 0F 55`                                          | Radio sync; not payload.                                                       |
 | **CAR ID/DEVICE ID**     | **5 B** |`2F 7D 87 26 49`                        | - |
-| **REMOTE ID**     | **4 B** | `16 56 B9 92`                        | - |
+| **REMOTE ID**     | **4 B** | `16 56 B9 92`                        | Likely shared across remotes of the same model (not unique) |
 | **HEADER**        | 1 B     | `AE`                                                | Fixed header.                                                                  |
 | **OP**            | 1 B     | `94`                                                | High nibble = direction; low nibble = speed code.                              |
 | **CMD**           | 1 B     | `9B`                                                | Direction signature ⊕ speed mask.                                                                                |
@@ -211,6 +229,9 @@ time ──▶ [drive][drive][drive]……(release)→[PARK][PARK]…[PARK]
 * 3887aa97bec393248b2b5cc9576c095aa80 (Speed 2)
 * 3887aa97bec393248b2b5cc9576849dea80 (Speed 3)
 
+* 3887aa97bec393248b2b5cc9574244e6280
+  3887aa97bec393248b2b5cc9574244e6280
+
 **RIGHT+FWD**:
 * 3887aa97bec393248b2b5cc9577272b5280 (Speed 1)
 * 3887aa97bec393248b2b5cc957741273280 (Speed 2)
@@ -237,16 +258,13 @@ time ──▶ [drive][drive][drive]……(release)→[PARK][PARK]…[PARK]
 **Pairing**:
 On car wake uup Car sends repeated packets on sync channel 2.407G until remote responds with any packet.
 
-Starting with Burst of packets
+Car Starting with Burst of packets
 * 3887aa97bec39324f4ab5cc957462e3da80 ??
-* 3887aa97bec39324f4ab5cc957462e3da80
+* 3887aa97bec39324f4ab5cc957462e3da80 -> 710f552f7d872649e956b992ae8c5c7b500
   
 If remote did not respond after ~ 1 second the car continues to publish slower repeated 4 packet burst
 
 * 3887aa97bec39324f4ab5cc9573f4993280  ->   710f552f7d872649e956b992ae7e9326500
   
 Synced Remote Replies on both 2.407G and Data 2.433G with speed packet
-* 3887aa97bec393248b2b5cc9574244e6280 (SPeed 3 - 1)
-  
-  
-
+* 3887aa97bec393248b2b5cc9574244e6280 (SPeed 3 - 1) -> 710f552f7d8726491656b992ae8489cc500
