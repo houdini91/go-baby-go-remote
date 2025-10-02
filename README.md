@@ -55,6 +55,8 @@ Key steps:
 
 For full technical details, packet layouts, timing analysis, and verified captures, see:  
 👉 [RX23 TX20 Analysis](./RX23_TX20.md)
+👉 [RX57 TX20 Analysis](./RX57_TX20.md)
+👉 [RX75 TX20 Analysis](./RX75_TX20.md)
 👉 [RX7 TX1 Analysis](./RX7_TX1.md)
 
 ---
