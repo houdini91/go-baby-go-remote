@@ -12,8 +12,8 @@ from gnuradio import gr, blocks
 import osmosdr
 
 # ---- Defaults (mirror your working capture) ----
-DEF_CENTER_FREQ = 2.444e9     # Hz RX23
-# DEF_CENTER_FREQ = 2.446e9     # Hz RX57
+# DEF_CENTER_FREQ = 2.444e9     # Hz RX23
+DEF_CENTER_FREQ = 2.446e9     # Hz RX57
 # DEF_CENTER_FREQ = 2.43900e9     # Hz
 # DEF_CENTER_FREQ = 2.40300e9     # Hz
 DEF_SAMP_RATE   = 2.0e6         # S/s
