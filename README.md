@@ -47,11 +47,12 @@ Key steps:
 
 **Phase:** RF reverse engineering and protocol decoding of produced by **weelye**.
 
-| Item                  | Status |
-| **TX20 → RX23** | ✅ **Working emulated control** | 2-FSK @ **250 kbps**; CF **2.44388 GHz**; **SPS=8**; cadence **~83 Hz**; | [RX23_TX20.md](./RX23_TX20.md) |
-| **TX1 → RX7**  | ✅ **Packet format decoded** (replay WIP) | 2-FSK @ **1 Mbps**; CF **2.433 GHz**; **SPS=4**;  cadence **~81 Hz** | [RX7_TX1.md](./RX7_TX1.md) |
-| Tools Used            | HackRF, GNU Radio, Universal Radio Hacker (URH) |
-| RF SoC (or similar)       | [XN297L](https://www.panchip.com/static/upload/file/20190916/1568621331607821.pdf) |
+| Item | Status | Modulation & Rate | Center Freq | Cadence (Hz) | Full Details |
+| :--- | :----- | :---------------- | :---------- | :----------- | :----------- |
+| **TX20 → RX23** (2.444 GHz) | ✅ **Working emulated control** | 2-FSK @ 250 kbps | **2.44388 GHz** | \~83 Hz | [RX23\_TX20.md](./RX23_TX20.md) |
+| **TX1 → RX7** | ✅ **Packet format decoded** (replay WIP) | 2-FSK @ 1 Mbps | **2.433 GHz** | \~81 Hz | [RX7\_TX1.md](./RX7_TX1.md) |
+| **TX20 → RX57** | ✅ **Protocol Decoded** | 2-FSK @ 250 kbps | **2.446 GHz** | \~82.7 Hz | [RX57\_TX20.md](./RX57_TX20.md) |
+| **TX20/TX10 → RX75** | ✅ **Protocol Decoded** | 2-FSK @ 250 kbps | **2.453 GHz** | \~83.0 Hz | [RX75\_TX20.md](./RX75_TX20.md) |
 
 For full technical details, packet layouts, timing analysis, and verified captures, see:  
 👉 [RX23 TX20 Analysis](./RX23_TX20.md)
