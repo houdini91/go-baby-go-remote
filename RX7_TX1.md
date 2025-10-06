@@ -95,7 +95,7 @@ No-reply followup (4‑packet burst)
 710f552f7d8726491656b992ae8489cc500
 ```
   
-## Frame layout assumption (sep 25) 
+## Frame layout assumption
 
 | Field             | Size    | Example | Notes                                                                          |
 | ----------------- | ------- | --------------------------------------------------- | ------------------------------------------------------------------------------ |
