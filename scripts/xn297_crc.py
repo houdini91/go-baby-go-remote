@@ -182,8 +182,7 @@ if __name__ == "__main__":
         "RX75 L+BWD S2": "c710f553475eeaa941f9350",
         "RX75 L+BWD S3": "c710f553475eeaa9c9e9b50",
 
-        # Note: This S1 frame equals the plain BACKWARD S1 you provided; keeping as-is per your list
-        "RX75 R+BWD S1": "c710f553475eeaa88cc2e50",
+        "RX75 R+BWD S1": "c710f553475eeaaa8e84c50",
         "RX75 R+BWD S2": "c710f553475eeaaa429c050",
         "RX75 R+BWD S3": "c710f553475eeaaaca8c850",
     }
