@@ -40,6 +40,11 @@
   710F552F7D8726491656B992AEA86C22500 (Speed 2)
   710F552F7D8726491656B992AEA0ED2A500 (Speed 3)
 
+  710f552f7d872649167de660d8a4c7fd500 (RX SAMPLE 1)
+  710f552f7d87264916422653a5a4ffbe500 (RX SAMPLE 2)
+  710f552f7d8726491683464093a48a85500 (RX SAMPLE 3)
+  
+
 **LEFT**:
 * 710F552F7D8726491656B992AE949BFD500 (Speed 1)
 * 710F552F7D8726491656B992AE985A71500 (Speed 2)
@@ -83,16 +88,30 @@ When the car wakes it floods a **sync channel (~2.407 GHz)** with announce burst
 
 ```
 Boot-up burst (announce)
-710f552f7d872649e956b992ae8c5c7b500
+710f55 2f7d872649 e956b992ae8c5c7b500 (RX SAMPLE 0 RX7)
+710f55 2f7d872649 e97de660d88c3628500 (RX SAMPLE 1 RX23-B) 
+710f55 2f7d872649 e9422653a58c0e6b500 (RX SAMPLE 2 RX23-B)
+710f55 2f7d872649 e9834640938c7b50500 (RX SAMPLE 3 RX23-B)
 
 No-reply followup (4‑packet burst)
 710f552f7d872649e956b992ae7e9326500
 ```
 
+***DEVICE ID SELECT**:
+Static Device ID 5 Bytes `2f 7d 87 26 49`
+Sync Command `e9`
+Device ID `16` then 4 Bytes `56 b9 92 ae` (RX SAMPLE 0 RX7)
+Device ID `16` then 4 Bytes `7d e6 60 d8` (RX SAMPLE 1 RX23-B) 
+Device ID `16` then 4 Bytes `42 26 53 a5` (RX SAMPLE 2 RX23-B)
+Device ID `16` then 4 Bytes `83 46 40 93` (RX SAMPLE 3 RX23-B)
+
 **Synced remote reply (speed / pairing reply)**
 
 ```
-710f552f7d8726491656b992ae8489cc500
+710f552f7d8726491656b992ae8489cc500 (RX SAMPLE 0) NEW ID 656b992ae
+710f552f7d872649167de660d884e39f500 (RX SAMPLE 1) NEW ID 67de660d8
+710f552f7d87264916422653a584dbdc500 (RX SAMPLE 2) NEW ID 6422653a5
+710f552f7d872649168346409384aee7500 (RX SAMPLE 4) NEW ID 683464093
 ```
   
 ## Frame layout assumption
@@ -268,3 +287,5 @@ If remote did not respond after ~ 1 second the car continues to publish slower r
   
 Synced Remote Replies on both 2.407G and Data 2.433G with speed packet
 * 3887aa97bec393248b2b5cc9574244e6280 (SPeed 3 - 1) -> 710f552f7d8726491656b992ae8489cc500
+
+

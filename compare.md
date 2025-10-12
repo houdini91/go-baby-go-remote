@@ -12,3 +12,24 @@
 | **`OP` Byte Speed Mapping**   | S1=`0x8`<br>S2=`0x4`<br>S3=`0xC` (assumed) | Same                  | Same                                  |
 | **`CMD` Direction Signature** | Differs per direction<br>Must match speed mask | Same         | e.g. `LEFT = 0x0E` (masked)           |
 | **Pairing Frame (Example)**   | `c710f55fb46a5ae04900250`      | `c710f55bd0f67aa08581f50`      | `c710f553475eeaa085da650`            |
+
+
+
+## Compare RX23/57/75 Pairing packets.
+
+* **Remote pairing mode**
+  When entering pairing mode, the remote transmits on a slightly different channel (\~2.44 GHz) at a noticeably slower burst rate.
+
+  ```
+  c710f55cccccca518cbb4a850
+  ```
+
+* **Car response** (confirmed via HackRF)
+  The car appears to respond on \~2.405 GHz using a similar burst format:
+
+  ```
+  c710f55cccccc5aa562df3b2950 (RX23) Device ID fb46a5aa
+  c710f55cccccc5ae6f0bd4db950 (RX57) Device ID bd0f67aa
+  c710f55cccccc5a77ae2cbc9850 (RX75) Device ID 3475eeaa
+  ```
+    

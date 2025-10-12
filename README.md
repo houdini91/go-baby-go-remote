@@ -98,4 +98,3 @@ We welcome help from hackers, engineers, makers, and families!
 - [TX20 FCC ID](https://fcc.report/FCC-ID/2AJ2H-TX10)
 - [XN297L Datasheet](https://www.panchip.com/static/upload/file/20190916/1568621331607821.pdf)
 - [TX20 GNU Radio TX Script](../scripts/gfsk_tx20_rx23.py)
-
